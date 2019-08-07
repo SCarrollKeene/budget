@@ -2,7 +2,17 @@
 // Budget Controller
 let budgetController = (function() {
 
-    // some code
+    function Expense(id, description, value) {
+        this.id = id;
+        this.description = description;
+        this.value = value;
+    };
+
+    function Income(id, description, value) {
+        this.id = id;
+        this.description = description;
+        this.value = value;
+    };
 
 })();
 
