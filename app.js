@@ -75,7 +75,7 @@ let UIController = (function() {
             return {
                 type: document.querySelector(DOMstrings.inputType).value, // Will be inc or exp
                 description: document.querySelector(DOMstrings.inputDescription).value,
-                value: document.querySelector(DOMstrings.inputValue).value
+                value: parseFloat(document.querySelector(DOMstrings.inputValue).value)
             }; 
         },
 
@@ -150,6 +150,16 @@ let controller = (function(budgetCtrl, UICtrl) {
         });
     };
 
+    let updateBudget = function() {
+
+        // 1. Calculate the budget
+
+        // 2. return the budget
+
+        // 3. Display the budget on the UI
+
+    };
+
     // this method acts as a control center of the app
     // tells other modules what to do, gets data back,
     // that it can use in other things like the variables below
@@ -159,19 +169,19 @@ let controller = (function(budgetCtrl, UICtrl) {
         // 1. Get field input data
         input = UICtrl.getInput();
 
-        // 2. Add item to the budget controller
-        newItem = budgetCtrl.addItem(input.type, input.description, input.value);
+        if (input.description !== "" && !isNaN(input.value) && input.value > 0) {
+            // 2. Add item to the budget controller
+            newItem = budgetCtrl.addItem(input.type, input.description, input.value);
 
-        // 3. Add item to the UI
-        UICtrl.addListItem(newItem, input.type);
+            // 3. Add item to the UI
+            UICtrl.addListItem(newItem, input.type);
 
-        // Clear the fields
-        UICtrl.clearFields();
+            // 4. Clear the fields
+            UICtrl.clearFields();
 
-        // 4. Calculate the budget
-
-        // 5. Display the budget on the UI
-        //console.log("it works.");
+            // 5. Calculate/update budget
+            updateBudget();
+        }
     };
 
     return {
