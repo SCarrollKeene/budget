@@ -152,7 +152,8 @@ let UIController = (function() {
         incomeLabel: '.budget__income--value',
         expensesLabel: '.budget__expenses--value',
         percentageLabel: '.budget__expenses--percentage',
-        container: '.container'
+        container: '.container',
+        expensesPercentageLabel: '.item__percentage'
     };
 
     // public method that IIFE will return
@@ -227,6 +228,26 @@ let UIController = (function() {
             }
         },
 
+        displayPercentages: function(percentages) {
+
+            let fields = document.querySelectorAll(DOMstrings.expensesPercentageLabel);
+
+            let NodeListForEach = function(list, callback) {
+                for (let i = 0; i < list.length; i++) {
+                    callback(list[i], i);
+                }
+            };
+
+            NodeListForEach(fields, function(current, index) {
+
+                if (percentages[index] > 0) {
+                    current.textContent = percentages[index] + '%';
+                } else {
+                    current.textContent = '---';
+                }
+            });
+        },
+
         getDOMstrings: function() {
             // expose private DOMstrings method to public
             return DOMstrings;
@@ -278,9 +299,9 @@ let controller = (function(budgetCtrl, UICtrl) {
 
         // 2. Read them from budget controller
         let percentages = budgetCtrl.getPercentages();
-        console.log(percentages);
 
         // 3. Update the user interface with the new percentages
+        UICtrl.displayPercentages(percentages);
     };
 
     // this method acts as a control center of the app
