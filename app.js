@@ -183,6 +183,12 @@ let UIController = (function() {
          return (type === 'exp' ? '-' : '+') + ' ' + int + '.' + dec;
     };
 
+    let NodeListForEach = function(list, callback) {
+        for (let i = 0; i < list.length; i++) {
+            callback(list[i], i);
+        }
+    };
+
     // public method that IIFE will return
     return {
         getInput: function() {
@@ -260,12 +266,6 @@ let UIController = (function() {
 
             let fields = document.querySelectorAll(DOMstrings.expensesPercentageLabel);
 
-            let NodeListForEach = function(list, callback) {
-                for (let i = 0; i < list.length; i++) {
-                    callback(list[i], i);
-                }
-            };
-
             NodeListForEach(fields, function(current, index) {
 
                 if (percentages[index] > 0) {
@@ -286,6 +286,21 @@ let UIController = (function() {
 
             year = now.getFullYear();
             document.querySelector(DOMstrings.dateLabel).textContent = months[month] + ' ' + year;
+        },
+
+        changedType: function() {
+
+            let fields = document.querySelectorAll(
+                DOMstrings.inputType + ',' +
+                DOMstrings.inputDescription + ',' +
+                DOMstrings.inputValue);
+
+            NodeListForEach(fields, function(cur) {
+                cur.classList.toggle('red-focus');
+            });
+
+            // toggle check button next to value box to red
+            document.querySelector(DOMstrings.inputBtn).classList.toggle('red');
         },
 
         getDOMstrings: function() {
@@ -316,6 +331,8 @@ let controller = (function(budgetCtrl, UICtrl) {
         });
 
         document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
+
+        document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changedType);
 
     };
 
